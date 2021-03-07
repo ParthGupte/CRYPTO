@@ -14,5 +14,14 @@ def replace(ciphertxt,guesses): #guesses is a dict of key=cipher value value=pla
 
 #TODO
 def letterfreq(ciphertxt): #will return list of characters sorted by frequency of appearance (decreasing order)
-    pass
+    freq_dict = {} # Dictionary of character corresponding to its frequency
+    for i in ciphertxt:
+        if i in freq_dict: #if character is already in dictionary, increase frequency by 1
+            freq_dict[i] += 1
+        else:#if character is not in dictionary, frequency is now 1
+            freq_dict[i] = 1
+    print(str(freq_dict))
+
+letterfreq("Alexander, The Great")
+
 
