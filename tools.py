@@ -20,8 +20,8 @@ def letterfreq(ciphertxt): #will return list of characters sorted by frequency o
             freq_dict[i] += 1
         else:#if character is not in dictionary, frequency is now 1
             freq_dict[i] = 1
-    print(str(freq_dict))
+    return freq_dict
 
-letterfreq("Alexander, The Great")
+print(letterfreq("Alexander, The Great"))
 
 
