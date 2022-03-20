@@ -1,12 +1,9 @@
 import numpy as np
-import pandas as pd
+import panda as pd
 import inverse
 # Every opereration on a ModeMatix object changes the value of the array associated with it and does not create a new object
 # So M1.add(M2) will add M1 and M2 and assign the value to M1 similarly for all other operations
 # you can import this class into another file by using "from modematrices import *" and then use it the same way in that file as I have here 
-def empty(base):
-    return ModMatix(np.array([[]]),base).T
-
 class ModMatix:
     def __init__(self, array, base) -> None:
         if len(array.shape) == 2:
@@ -41,8 +38,9 @@ class ModMatix:
                     prod = np.zeros((self.array.shape[0],M.array.shape[1]))
                     for i in range(prod.shape[0]):
                         for j in range(prod.shape[1]):
-                            prod[i,j] = sum(self.array[i]*M.array[:,j])
-                    self.array = prod%self.base
+                            for k in range(self.array.shape[1]) :
+                                prod[i,j] = ( prod[i,j] + (self.array[i,k]*M.array[k,j]) ) % self.base
+                    self.array = prod
                 else:
                     print("These matices don't have compatible shape for multiplication")
             else:
