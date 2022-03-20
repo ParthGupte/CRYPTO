@@ -4,6 +4,9 @@ import inverse
 # Every opereration on a ModeMatix object changes the value of the array associated with it and does not create a new object
 # So M1.add(M2) will add M1 and M2 and assign the value to M1 similarly for all other operations
 # you can import this class into another file by using "from modematrices import *" and then use it the same way in that file as I have here 
+def empty(base):
+    return ModMatix(np.array([[]]),base).T
+
 class ModMatix:
     def __init__(self, array, base) -> None:
         if len(array.shape) == 2:
@@ -55,7 +58,16 @@ class ModMatix:
         self.multiply(M.inv()) 
     
     def isvector(self):
-        return self.array.shape[1] == 0
+        if isinstance(self,ModMatix):
+            return self.array.shape[1] == 0
+        else:
+            return False
+    
+    def vec_concat(self,a):
+        if a.isvector() and self.isvector():
+            self.array = np.concatenate((self.array,a), axis=0)
+        else:
+            print("Must be a vector")
     
     #def det(self):
     # I will send code for determinant also — Pranjal
