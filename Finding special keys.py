@@ -556,7 +556,7 @@ def key_maker(p_,t_) :
     t = padder(t_)
     BOOK = convert(book)
     m = np.transpose(np.array([t]+[[1-np.sign(i-j)**2 for j in range(400)] for i in range(1,400)] , dtype='int64'))
-    b = np.array(np.identity(400) , dtype='int64')
+    b = np.identity(400, dtype='int64')
     M = ModMatix(m,q)
     B = ModMatix(b,q)
     M.div(B)

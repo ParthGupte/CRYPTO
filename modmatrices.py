@@ -1,5 +1,4 @@
 import numpy as np
-import panda as pd
 import inverse
 # Every opereration on a ModeMatix object changes the value of the array associated with it and does not create a new object
 # So M1.add(M2) will add M1 and M2 and assign the value to M1 similarly for all other operations
