@@ -65,7 +65,7 @@ def inverse(M) : # Returns the inverse of M, prints "inverse error: Matrix not i
 
 ########################################################################################################################
     
-q = 257 # We now use the fact that Z_257 is a field (since 257 is a prime)
+q = 131 # We now use the fact that Z_q is a field (since q is a prime)
 
 
 def mod_inv(x) : # Returns the mod q multiplicative inverse of x
@@ -74,7 +74,7 @@ def mod_inv(x) : # Returns the mod q multiplicative inverse of x
 
     else :
         y = 1
-        for i in range(255) : # The multiplicative inverse of x mod 257 is x^255 (Fermat's Little Theorem)
+        for i in range(q-2) : # The multiplicative inverse of x mod q is x^(q-2) (Fermat's Little Theorem)
             y = (y*x)%q
 
         return y
