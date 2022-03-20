@@ -50,10 +50,12 @@ class ModMatix:
     def inv(self):
         invarr = inverse.mod_inverse(self.array)
         self.array = invarr
-    
+        
     def div(self,M):  # A.div(B) is A times B inverse 
-        self.multiply(M.inv()) 
-    
+    M_ = copy.deepcopy(M)  # There was a mistake here; self.multiply(M.inv()) is a meaningless statement since M.inv() is not a ModMatrix 
+    M_.inv()
+    self.multiply(M_)
+
     def isvector(self):
         if isinstance(self,ModMatix):
             return self.array.shape[1] == 0
