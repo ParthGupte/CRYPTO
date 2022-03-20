@@ -64,9 +64,8 @@ def inverse(M) : # Returns the inverse of M, prints "inverse error: Matrix not i
     return I
 
 ########################################################################################################################
-    
-q = 131 # We now use the fact that Z_q is a field (since q is a prime)
 
+q = 127
 
 def mod_inv(x) : # Returns the mod q multiplicative inverse of x
     if x%q==0 :
@@ -82,6 +81,8 @@ def mod_inv(x) : # Returns the mod q multiplicative inverse of x
 
 def mod_reducer(M,I,a) : # Same as reducer(), but division is replaced by modular division
     n = len(M)
+    M = M%q
+    I = I%q
 
     if M[a,a]%q and a<n-1 :
         row_op( [M,I] , [i for i in range(a,n)] , [ ( -M[i,a] * mod_inv(M[a,a]) ) % q for i in range(a+1,n)] )
@@ -116,6 +117,6 @@ def mod_inverse(M) : # Returns the modular multiplicative inverse of M. Same alg
     
     for i in range(n-1 , 0 , -1) :
         for j in range(i) :
-            I[j] = I[j] - A[j,i]*I[i]
+            I[j] = ( I[j] - A[j,i]*I[i] ) % q
 
     return np.matrix([[I[i,j]%q for i in range(n)] for j in range(n)])
