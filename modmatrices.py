@@ -48,14 +48,14 @@ class ModMatix:
             print("Object is not an instance of ModMatrix, can't be multiplied")
     
     def inv(self):
-        invarr = inverse.mod_inv(self.array)
+        invarr = inverse.mod_inverse(self.array)
         self.array = invarr
     
     def div(self,M):  # A.div(B) is A times B inverse 
         self.multiply(M.inv()) 
     
     #def det(self):
-
+    # I will send code for determinant also — Pranjal
         
 
 
