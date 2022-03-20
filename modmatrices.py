@@ -54,6 +54,9 @@ class ModMatix:
     def div(self,M):  # A.div(B) is A times B inverse 
         self.multiply(M.inv()) 
     
+    def isvector(self):
+        return self.array.shape[1] == 0
+    
     #def det(self):
     # I will send code for determinant also — Pranjal
         
