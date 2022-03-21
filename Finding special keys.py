@@ -571,3 +571,6 @@ K1 = key_maker(p1 , reverse_convert([1] + [0 for i in range(399)])) # Computatio
 
     
 
+key_list = [key_maker(p_list[i],cypher) for i in range(8)] # Final list of special keys
+
+print(key_list)
