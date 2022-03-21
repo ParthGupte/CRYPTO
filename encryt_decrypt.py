@@ -1,5 +1,5 @@
 from modmatrices import *
-
+import inverse
 base = 127
 chunk_size = 20
 
@@ -33,7 +33,7 @@ def encrypt(p,k):
     if n<=chunk_size:
         for i in list(p):
             p_list.append(ord(i))
-        p_list.extend([198]*(chunk_size-n))
+        p_list.extend([126]*(chunk_size-n))
         print(p_list)
         p_vec = ModMatix(np.array([p_list]).T,base)
         return vectoascii(vec_encrypt(p_vec,k))
@@ -46,15 +46,15 @@ def encrypt(p,k):
     
 def decrypt(t,k):
     k.inv()
-    return encrypt(t,k).rstrip(chr(198))
+    return encrypt(t,k).rstrip(chr(126))
 
 ##### test
 
-karr = np.identity(20)
+karr = np.identity(20,dtype='int64')
 k = ModMatix(karr,base)
 t = encrypt("I am a disco dancer.",k)
 print(t)
-print(decrypt(t,k))
+decrypt(t,k)
 
 
 
