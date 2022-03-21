@@ -49,13 +49,13 @@ neighbours, always neighbours.'''
 
 # len(p2) = 343
 
-p3 = '''When I descended here, I saw your four Sons, the Pentagons, each in his
+p3 = '''I descended here, I saw your four Sons, the Pentagons, each in his
 apartment, and your two Grandsons the Hexagons; I saw your youngest
 Hexagon remain a while with you and then retire to his room, leaving
 you and your Wife alone.  I saw your Isosceles servants, three in
 number, in the kitchen at supper, and the little Page in the scullery.'''
 
-# len(p3) = 345
+# len(p3) = 340
 
 p4 = '''No, no, my Lord; we Squares
 are better advised, and are as well aware of your Lordship that a
@@ -110,29 +110,30 @@ def padder(str) :
     converted = convert(str)
     n = len(converted)
 
-    if n%400 == 0:
+    if n%361 == 0:
         return converted
 
     else :
-        return np.array(converted + [ q-1 for i in range(400 - (n%400)) ])
+        return np.array(converted + [ q-1 for i in range(361 - (n%361)) ])
 
 def blocks(str) :
     padded = padder(str)
-    n = len(padded)//20
-    return np.array([[padded[i*n+j] for j in range(20)] for i in range(n)] , dtype='int64')
+    n = len(padded)//19
+    return np.array([[padded[i*n+j] for j in range(19)] for i in range(n)] , dtype='int64')
 
 def key_maker(p_,t_) :
     p = blocks(p_)
     t = blocks(t_)
-    m = np.transpose(t)
-    b = np.transpose(p)
-    M = ModMatix(m,q)
-    B = ModMatix(b,q)
-    B.multiply(M)
-    return np.array(B.array , dtype='int64')
+    m = np.transpose(copy.deepcopy(t))
+    b = np.transpose(copy.deepcopy(p))
+    T = ModMatix(m,q)
+    P = ModMatix(b,q)
+    T.div(P)
+    return np.array(T.array , dtype='int64')
 
-cypher = '''You're screwed. You might not realise it right now, and think that you can figure it out, but you're royally screwed. The very fact that the cypher is this essay I wrote to tell you how screwed you are should be enough to convince you that you're screwed. No amount of brute-forcing will get you the answer because, you guessed it, we screwed you. Have fun getting screwed.
-- Sincerly, Encryptosaurus'''
-# len(cypher) = 400
+cypher = '''You're screwed. You might think that you're smart and you can figure it out, but you're royally screwed. The very fact that the cypher is this essay I wrote to tell you how screwed you are should be enough to convince you that you're screwed. No amount of brute-forcing will get you the answer because, you guessed it, we screwed you.
+-Sincerely, Encryptosuarus'''
+# len(cypher) = 361
 
 key_list = [key_maker(p_list[i],cypher) for i in range(8)] # Final list of special keys
+print(key_list)
