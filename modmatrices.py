@@ -1,8 +1,12 @@
 import numpy as np
+import copy
 import inverse
 # Every opereration on a ModeMatix object changes the value of the array associated with it and does not create a new object
 # So M1.add(M2) will add M1 and M2 and assign the value to M1 similarly for all other operations
 # you can import this class into another file by using "from modematrices import *" and then use it the same way in that file as I have here 
+def empty(base):
+    return ModMatix(np.array([[]]),base).T
+
 class ModMatix:
     def __init__(self, array, base) -> None:
         if len(array.shape) == 2:
@@ -15,6 +19,12 @@ class ModMatix:
     def value(self):
         print(self.array,self.base)
     
+    def vec_dim(self):
+        if self.isvector():
+            return self.array.shape[0]
+        else:
+            print("This is not a vector")
+
     def add(self,M):
         if isinstance(M,ModMatix):
             if M.base == self.base:
@@ -52,13 +62,14 @@ class ModMatix:
         self.array = invarr
         
     def div(self,M):  # A.div(B) is A times B inverse 
-    M_ = copy.deepcopy(M)  # There was a mistake here; self.multiply(M.inv()) is a meaningless statement since M.inv() is not a ModMatrix 
-    M_.inv()
-    self.multiply(M_)
+        M_ = M
+        M.inv()
+        self.multiply(M)
+        M = M_
 
     def isvector(self):
         if isinstance(self,ModMatix):
-            return self.array.shape[1] == 0
+            return self.array.shape[1] == 1
         else:
             return False
     
@@ -75,24 +86,24 @@ class ModMatix:
 
 
 ### test
-m1 = np.array([[1,2,3],[3,2,1],[2,3,1]])
-M1 = ModMatix(m1,2)
-m2 = np.array([[0,1,1],[2,1,1],[0,0,0]])
-M2 = ModMatix(m2,2)
-M1.value()
-M2.value()
-M1.add(M2)
-M1.value
-M1.scale(2)
-M1.value()
-M1.multiply(M2)
-M1.value()
-M1.add(M2)
-M1.value()
-M1.inv()
-M1.value()
-M1.div(M2)
-M1.value()
+# m1 = np.array([[1,2,3],[3,2,1],[2,3,1]])
+# M1 = ModMatix(m1,2)
+# m2 = np.array([[0,1,1],[2,1,1],[0,0,0]])
+# M2 = ModMatix(m2,2)
+# M1.value()
+# M2.value()
+# M1.add(M2)
+# M1.value
+# M1.scale(2)
+# M1.value()
+# M1.multiply(M2)
+# M1.value()
+# M1.add(M2)
+# M1.value()
+# M1.inv()
+# M1.value()
+# M1.div(M2)
+# M1.value()
 
                 
                 
