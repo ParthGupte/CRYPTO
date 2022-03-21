@@ -36,29 +36,21 @@ def encrypt(p,k):
         p_list.extend([126]*(chunk_size-n))
         print(p_list)
         p_vec = ModMatix(np.array([p_list]).T,base)
-        return vectoascii(vec_encrypt(p_vec,k))
+        return vectoascii(vec_encrypt(p_vec,ModMatix(k,base)))
     if n>chunk_size:
         t = empty(base)
         while len(p)>0:
-            t.vec_concat(encrypt(p[:chunk_size],k))
+            t.vec_concat(encrypt(p[:chunk_size],ModMatix(k,base)))
             p = p[chunk_size:]
         return vectoascii(t)
     
 def decrypt(t,k):
-    k.inv()
-    return encrypt(t,k).rstrip(chr(126))
+    return encrypt(t,inverse.mod_inverse(k)).rstrip(chr(126))
 
 ##### test
 
-karr = np.identity(20,dtype='int64')
-k = ModMatix(karr,base)
+karr = np.array(np.identity(20,dtype='int64'))
+k = karr
 t = encrypt("I am a disco dancer.",k)
 print(t)
 decrypt(t,k)
-
-
-
-
-
-
-    
