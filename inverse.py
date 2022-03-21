@@ -50,8 +50,9 @@ def inverse(M) : # Returns the inverse of M, prints "inverse error: Matrix not i
             return None
 
         else : # Make all diagonal entries of A into 1
-            I[i] = I[i]/A[i,i]
-            A[i] = A[i]/A[i,i]
+            reducer(A,I,i)
+            I[i] /= A[i,i]
+            A[i] /= A[i,i]
      
     # A is now in row-reduced echelon form
 
@@ -64,28 +65,48 @@ def inverse(M) : # Returns the inverse of M, prints "inverse error: Matrix not i
     return I
 
 ########################################################################################################################
+    
+q = 127 # We now use the fact that Z_q is a field (since q is a prime)
 
-q = 127
+def mulmod(a, b):
+
+    res = 0 # Initialize result
+    a = a % q
+    while b > 0:
+
+    # If b is odd, add 'a' to result
+        if b%2 == 1:
+            res = (res + a) % q
+
+        # Multiply 'a' with 2
+        a = (a * 2) % q
+
+        # Divide b by 2
+        b //= 2
+
+        # Return result
+    return res % q
+
 
 def mod_inv(x) : # Returns the mod q multiplicative inverse of x
-    if x%q==0 :
-        print("mod_inv error; division by 0")
+    if x%q == 0 :
+        print("mod_inv error: division by 0")
 
     else :
-        y = 1
-        for i in range(q-2) : # The multiplicative inverse of x mod q is x^(q-2) (Fermat's Little Theorem)
-            y = (y*x)%q
+        for i in range(1,q) :
+            if mulmod(x,i) == 1 :
+                return i
 
-        return y
+        # for i in range(q-2) : # The multiplicative inverse of x mod q is x^(q-2) (Fermat's Little Theorem)
+        #     y = (y*x)%q
 
+        # return y
 
 def mod_reducer(M,I,a) : # Same as reducer(), but division is replaced by modular division
     n = len(M)
-    M = M%q
-    I = I%q
 
     if M[a,a]%q and a<n-1 :
-        row_op( [M,I] , [i for i in range(a,n)] , [ ( -M[i,a] * mod_inv(M[a,a]) ) % q for i in range(a+1,n)] )
+        row_op( [M,I] , [i for i in range(a,n)] , [ mulmod(-M[i,a],mod_inv(M[a,a])) for i in range(a+1,n)] )
 
     elif M[a,a]%q == 0 :
 
@@ -100,23 +121,32 @@ def mod_reducer(M,I,a) : # Same as reducer(), but division is replaced by modula
             print("mod_inverse error: Matrix not invertible")
             return -1
 
-
 def mod_inverse(M) : # Returns the modular multiplicative inverse of M. Same algorithm as inverse() but with division replaced by modular division
     n = len(M)
     A = copy.deepcopy(M)
-    I = np.array([[1 - np.sign((i-j)**2) for i in range(n)] for j in range(n)] , dtype = 'int') # I is the identity matrix
-    
-    for i in range(n) :
+    I = np.identity(n , dtype = 'int64')
 
+    for i in range(n) :
         if mod_reducer(A,I,i) == -1 :
             return None
 
         else :
-            I[i] = ( I[i] * mod_inv(A[i,i]) ) % q
-            A[i] = ( A[i] * mod_inv(A[i,i]) ) % q
-    
+            mod_reducer(A,I,i)
+            I[i] = ( I[i]*mod_inv(A[i,i]) )%q
+            A[i] = ( A[i]*mod_inv(A[i,i]) )%q
+    # print(A,'\n')
     for i in range(n-1 , 0 , -1) :
-        for j in range(i) :
-            I[j] = ( I[j] - A[j,i]*I[i] ) % q
+        # print(A,I,sep='\n')
+        row_op([A,I] , [j for j in range(i,-1,-1)] , [-A[j,i] for j in range(i-1,-1,-1)])
+        I = I%q
+        A = A%q
+            # I[j] = ( I[j] - A[j,i]*I[i] ) % q
+    return I%q
 
-    return np.matrix([[I[i,j]%q for i in range(n)] for j in range(n)])
+# m1 = np.array([[1,2,3],[3,2,1],[2,3,1]])
+# m2 = np.array([[0,1,1],[2,1,1],[2,0,0]])
+# m = mod_inverse(m1)
+
+# m3 = np.array([[2]+[0 for i in range(19)]]+[[0 for j in range(20)] for i in range(1,20)])
+# print(mod_inverse(m3))
+
