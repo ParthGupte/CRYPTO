@@ -126,11 +126,10 @@ def key_maker(p_,t_) :
     t = blocks(t_)
     m = np.transpose(copy.deepcopy(t))
     b = np.transpose(copy.deepcopy(p))
-    M = ModMatix(m,q)
-    B = ModMatix(b,q)
-    B.inv()
-    B.multiply(M)
-    return np.array(B.array , dtype='int64')
+    T = ModMatix(m,q)
+    P = ModMatix(b,q)
+    T.div(P)
+    return np.array(T.array , dtype='int64')
 
 cypher = '''You're screwed. You might think that you're smart and you can figure it out, but you're royally screwed. The very fact that the cypher is this essay I wrote to tell you how screwed you are should be enough to convince you that you're screwed. No amount of brute-forcing will get you the answer because, you guessed it, we screwed you.
 -Sincerely, Encryptosuarus'''
