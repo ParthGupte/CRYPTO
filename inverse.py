@@ -10,7 +10,7 @@ def row_op(matrices , rows , coeffs) : # Takes a list of matrices (matrices), ro
 
     for M in matrices :
         for r in range(len(coeffs)) :
-            M[rows[r+1]] += coeffs[r]*M[rows[0]]
+            M[rows[r+1]] += np.array(coeffs[r]*M[rows[0]],dtype='int64')
 
 
 def reducer(M,I,a) : # Takes matrices M and I and some a = 0 , ... , n-1

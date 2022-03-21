@@ -11,7 +11,7 @@ class ModMatix:
     def __init__(self, array, base) -> None:
         if len(array.shape) == 2:
             self.base = base
-            self.array = array%self.base
+            self.array = np.array(array%self.base,dtype='int64')
             
         else:
             print("Use an 2darray")
@@ -58,8 +58,10 @@ class ModMatix:
             print("Object is not an instance of ModMatrix, can't be multiplied")
     
     def inv(self):
-        invarr = inverse.mod_inverse(self.array)
-        self.array = invarr
+        print(self.array)
+        invarr = inverse.mod_inverse(np.array(self.array,dtype='int64'))
+        print(invarr)
+        self.array = np.array(invarr,dtype='int64')
         
     def div(self,M):  # A.div(B) is A times B inverse 
         M_ = M
