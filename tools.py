@@ -1,15 +1,11 @@
-alphalist = [] #add alphabets in decreasing order of frequency as they appear in the eng language
+alphalist = ["E","T","A","I","N","O","S","H","R","D","L","U","C","M","F","W","Y","G","P","B","V","K","Q","J","X","Z"] #add alphabets in decreasing order of frequency as they appear in the eng language
 def replace(ciphertxt,guesses): #guesses is a dict of key=cipher value value=plain value
-    ciphlist = list(ciphertxt)
-    L = []
-    for i in ciphlist:
+    res = ""
+    for i in ciphertxt:
         if i in guesses.keys():
-            L+=guesses[i]
+            res += guesses[i]
         else:
-            L+=i
-    res = ''
-    for i in L:
-        res+=i
+            res += i 
     return res
 
 #TODO

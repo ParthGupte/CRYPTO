@@ -108,7 +108,12 @@ class ModMatix:
 # M1.value()
 
                 
-                
-
+m = np.array([[2,6,1],[11,2,0],[4,1,3]])
+M = ModMatix(m,9539)
+M.inv()
+r = np.array([[3030],[6892],[8773]])
+R = ModMatix(r,9539)
+M.multiply(R)
+print(M.array)
 
 
